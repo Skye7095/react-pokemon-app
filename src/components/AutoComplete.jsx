@@ -5,12 +5,11 @@ const AutoComplete = ({allPokemons, setDisplayedPokemons}) => {
 
   const filterNames = (input) => {
     const value = input.toLowerCase();
-    return value ? allPokemons.filter((e) => e.name.includes(value)) : [];
+    return value? allPokemons.filter((e) => e.name.includes(value)) : [];
 }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(e.name)
     let text= searchTerm.trim()
     setDisplayedPokemons(filterNames(text))
     setSearchTerm('')
@@ -42,15 +41,15 @@ const AutoComplete = ({allPokemons, setDisplayedPokemons}) => {
 
           </div>
           <ul className='w-40 max-h-[134px] py-1 bg-gray-700 rounded-lg absolute top-0 overflow-auto scrollbar-none'>
-            {checkEqualName(searchTerm).map((e, i) => {
+            {checkEqualName(searchTerm).map((e, i) => (
               <li key={`button-${i}`}>
                 <button 
                   onClick={() => setSearchTerm(e.name)}
-                  className='text-base w-full hover:bg-gray-600 p-[2px] text-gray-10'>
+                  className='text-base w-full hover:bg-gray-600 p-[2px] text-gray-100'>
                   {e.name}
                 </button>
               </li>
-            })}
+            ))}
           </ul>
         </div>
       )}
