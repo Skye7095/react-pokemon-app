@@ -24,7 +24,7 @@ const AutoComplete = ({allPokemons, setDisplayedPokemons}) => {
     <div className='relative z-50'>
       <form
         onSubmit={handleSubmit}
-        className='relative flex justify-center items-center 2-[20.5rem] h-6 rounded-lg m-auto'
+        className='relative flex justify-center items-center w-[20.5rem] h-6 rounded-lg m-auto'
       >
         <input 
           type="text" 
