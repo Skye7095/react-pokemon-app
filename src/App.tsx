@@ -5,6 +5,8 @@ import MainPage from './pages/MainPage'
 import LoginPage from './pages/LoginPage'
 import DetailPage from './pages/DetailPage'
 
+import {v4} from 'uuid'
+
 const Layout = () => {
   return (
     <>

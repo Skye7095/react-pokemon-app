@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import {useLocation, useNavigate} from 'react-router'
 import styled from 'styled-components'
-import {getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut} from 'firebase/auth'
+import {User, getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut} from 'firebase/auth'
 import app from '../firebase'
 
-const initialUserData = localStorage.getItem('userData') ?
-  JSON.parse(localStorage.getItem('userData')) : {}
+const userDataFromStorage = localStorage.getItem('userData')
+
+const initialUserData = userDataFromStorage ?
+  JSON.parse(userDataFromStorage) : null
 
 const NavBar = () => {
 
@@ -15,7 +17,7 @@ const NavBar = () => {
 
   const [show, setShow] = useState(false)
 
-  const [userData, setUserData] = useState(initialUserData)
+  const [userData, setUserData] = useState<User | null>(initialUserData)
 
   const {pathname} = useLocation()
   const navigate = useNavigate()
@@ -64,7 +66,7 @@ const NavBar = () => {
   const handlerLogOut = () => {
     signOut(auth)
       .then(() => {
-        setUserData({})
+        setUserData(null)
       })
       .catch(error => {
         alert(error.message)
@@ -72,7 +74,7 @@ const NavBar = () => {
   }
 
   return (
-    <NavWrapper $show={show}>
+    <NavWrapper show={show}>
       <Logo>
         <Image
           alt='Poke Logo'
@@ -85,7 +87,9 @@ const NavBar = () => {
         <Login onClick={handleAuth}>로그인</Login>
       ) : 
       <SignOut>
-        <UserImg src={userData.photoURL} alt="user photo" />
+        {userData?.photoURL &&
+          <UserImg src={userData.photoURL} alt="user photo" />
+        }
         <Dropdown>
           <span onClick={handlerLogOut}>Sign Out</span>
         </Dropdown>
@@ -163,14 +167,14 @@ const Logo = styled.a`
   margin-top: 4px;
 `
 
-const NavWrapper = styled.nav`
+const NavWrapper = styled.nav<{show: boolean}>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 70px;
   display: flex;
-  background-color: ${props => props.$show ? "#090b13" : "transparent"};
+  background-color: ${props => props.show ? "#090b13" : "transparent"};
   justify-content: space-between;
   align-items: center;
   padding: 0 36px;
